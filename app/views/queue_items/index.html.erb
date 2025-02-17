@@ -1,0 +1,10 @@
+<h1>Queue Items</h1>
+<div class="container">
+  <% @queue_items.each do |item| %>
+    <div class="row dark">
+      <h1><%= item.name %></h1>
+      <div>Color: <%= item.color %></div>
+      <div>Status: <%= item.status %></div>
+    </div>
+  <% end %>
+</div>

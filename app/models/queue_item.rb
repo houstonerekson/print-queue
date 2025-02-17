@@ -1,0 +1,2 @@
+class QueueItem < ApplicationRecord
+end
