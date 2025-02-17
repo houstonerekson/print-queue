@@ -3,7 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # Add Codeanywhere as host
-  config.hosts << "3000-houstonerekson-print-que-ulpekh8c00.app.codeanywhere.com"
+  config.hosts << "3000-houstonerekson-print-que-hmyjqcdfni.app.codeanywhere.com"
   
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
