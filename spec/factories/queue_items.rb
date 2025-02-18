@@ -1,5 +1,6 @@
 FactoryBot.define do
     factory :queue_item do
-      name { "Sample Name" }
+      name { "Test Item" }
+      status { :pending }
     end
   end

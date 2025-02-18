@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_025554) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_18_074755) do
   create_table "queue_items", force: :cascade do |t|
     t.string "name"
     t.string "reference_id"
-    t.string "status"
+    t.integer "status", default: 0, null: false
     t.string "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

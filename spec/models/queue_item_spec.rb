@@ -11,9 +11,21 @@ RSpec.describe QueueItem, type: :model do
         expect(queue_item).to_not be_valid
     end
 
-    it 'is valid with a status' do
-        queue_item = build(:queue_item, status: 'Test Status')
-        expect(queue_item).to be_valid
+    describe "status enum" do
+        it "has the correct statuses" do
+          expect(QueueItem.statuses.keys).to contain_exactly("pending", "printing", "completed", "failed")
+        end
+    
+        it "allows setting and querying statuses" do
+            queue_item = create(:queue_item, status: :pending)
+      
+            expect(queue_item).to be_pending
+            queue_item.printing!
+            expect(queue_item).to be_printing
+            queue_item.completed!
+            expect(queue_item).to be_completed
+            queue_item.failed!
+            expect(queue_item).to be_failed
+          end
     end
-  
 end
