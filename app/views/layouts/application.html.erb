@@ -22,7 +22,9 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body data-bs-theme="dark" class="pt-5" >
-    <%= yield %>
+  <body data-bs-theme="dark" class="pt-5 pb-5 px-5">
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
   </body>
 </html>

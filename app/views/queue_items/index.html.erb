@@ -1,11 +1,9 @@
-<div class="container col-6">
-  <% @queue_items.each do |item| %>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title" ><%= item.name %></h5>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"><%= item.status %></span>
-        <div>Color: <%= item.color %></div>
-      </div>
+<% @queue_items.each do |item| %>
+  <div class="card mb-2">
+    <div class="card-body">
+      <h6 class="text-info"><%= item.status %></h6>
+      <h5 class="card-title" ><%= item.name %></h5>
+      <div>Color: <%= item.color %></div>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>
