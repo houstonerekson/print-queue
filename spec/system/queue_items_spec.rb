@@ -8,6 +8,7 @@ RSpec.describe "QueueItems", type: :system do
   it "allows a user to create a new queue item" do
     visit new_queue_item_path
     fill_in "Name", with: "Test Print Job"
+    fill_in "Color", with: "Test Color"
     choose "Pending"
     click_button "Create"
   

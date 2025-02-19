@@ -1,9 +1,23 @@
 <% @queue_items.each do |item| %>
   <div class="card mb-2">
-    <div class="card-body">
-      <h6 class="text-info"><%= item.status %></h6>
+    <div class="card-header d-flex justify-content-between align-items-center p-1 ps-3 bg-transparent border-0">
+      <span class="text-info"><%= item.status %></span>
+      <div class="d-flex flex-row gap-1">
+        <%= link_to edit_queue_item_path(item), class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="bi bi-pencil"></i>
+        <% end %>
+
+        <%= button_to queue_item_path(item), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" do %>
+          <i class="bi bi-trash"></i>
+        <% end %>
+      </div>
+
+    </div>
+    <div class="card-body py-1">
       <h5 class="card-title" ><%= item.name %></h5>
       <div>Color: <%= item.color %></div>
+      
+
     </div>
   </div>
 <% end %>

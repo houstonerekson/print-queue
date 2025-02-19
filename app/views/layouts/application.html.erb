@@ -26,17 +26,11 @@
 
   <body data-bs-theme="dark" class="pb-5">
 
-    <nav class="navbar navbar-expand-sm bg-body-tertiary position-sticky top-0 w-100 shadow">
+    <nav class="navbar bg-body-tertiary position-sticky top-0 w-100 shadow">
       <div class="container">
         <a class="navbar-brand" href="<%= root_path %>">Print Queue</a>
 
-        <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="btn btn-primary" href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
@@ -55,7 +49,7 @@
       </div>
     <% end %>
     
-    <div class="container-fluid pt-3">
+    <div class="container col-md-8 pt-3">
       <%= yield %>
     </div>
   </body>

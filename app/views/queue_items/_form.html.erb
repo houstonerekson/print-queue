@@ -1,0 +1,35 @@
+<%= form_with model: queue_item, local: true do |form| %>
+    <% if queue_item.errors.any? %>
+        <div class="alert alert-danger">
+            <ul>
+                <% queue_item.errors.full_messages.each do |message| %>
+                    <li><%= message.html_safe %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    
+    <div class="mb-3">
+        <%= form.label :name, class: "form-label", maxlength: 100  %>
+        <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :color, class: "form-label", maxlength: 50  %>
+        <%= form.text_field :color, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :status, class: "form-label d-block" %>
+        <div class="btn-group" role="group" aria-label="Status selection">
+            <% QueueItem.statuses.keys.each do |status| %>
+            <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %>>
+            <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="actions d-flex flex-row justify-content-between">
+        <%= form.submit class: "btn btn-primary" %><%= link_to "Cancel", queue_items_path, class: "btn btn-danger" %>
+    </div>
+<% end %>
