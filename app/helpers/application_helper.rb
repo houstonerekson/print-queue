@@ -9,4 +9,14 @@ module ApplicationHelper
       end
     end
 
+    def bootstrap_class_name_for(status)
+      status_classes = {
+        "pending" => "warning",
+        "completed" => "success",
+        "printing" => "info",
+        "failed" => "danger"
+      }
+      status_classes[status] || "secondary"  # Default to bg-light if status is not found
+    end
+      
 end
