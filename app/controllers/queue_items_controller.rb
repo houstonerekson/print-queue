@@ -11,8 +11,10 @@ class QueueItemsController < ApplicationController
       @queue_item = QueueItem.new(queue_item_params)
 
       if @queue_item.save
-        redirect_to queue_items_path, notice: "Queue item created successfully!"
+        flash[:notice] = "Queue item created successfully!"
+        redirect_to queue_items_path
       else
+        flash.now[:error] = "Failed to create queue item. Please fix errors."
         render :new, status: :unprocessable_entity
       end
     end

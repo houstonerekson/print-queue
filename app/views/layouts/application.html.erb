@@ -16,14 +16,46 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body data-bs-theme="dark" class="pt-5 pb-5 px-5">
-    <div class="container-fluid">
+  <body data-bs-theme="dark" class="pb-5">
+
+    <nav class="navbar navbar-expand-sm bg-body-tertiary position-sticky top-0 w-100 shadow">
+      <div class="container">
+        <a class="navbar-brand" href="<%= root_path %>">Print Queue</a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="btn btn-primary" href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
+                <i class="bi bi-plus-lg"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <% flash.each do |type, message| %>
+      <div class="alert alert-<%= bootstrap_class_for(type) %> alert-dismissible position-absolute top-0 start-50 translate-middle-x fade show" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    
+    <div class="container-fluid pt-3">
       <%= yield %>
     </div>
   </body>

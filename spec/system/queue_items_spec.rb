@@ -7,18 +7,19 @@ RSpec.describe "QueueItems", type: :system do
 
   it "allows a user to create a new queue item" do
     visit new_queue_item_path
-
-    fill_in "Name", with: "Test Print"
-    select "pending", from: "Status"
-    click_button "Create Queue Item"
-
-    expect(page).to have_content("Test Print")
+    fill_in "Name", with: "Test Print Job"
+    choose "Pending"
+    click_button "Create"
+  
+    expect(page).to have_content "Queue item created successfully!"
+    expect(QueueItem.last.status).to eq("pending")
   end
+  
 
   it "shows errors when the form is submitted without a name" do
     visit new_queue_item_path
 
-    click_button "Create Queue Item"
+    click_button "Create"
 
     expect(page).to have_content("Name can't be blank")
   end
