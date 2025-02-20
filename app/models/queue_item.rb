@@ -1,5 +1,9 @@
 class QueueItem < ApplicationRecord  
     validates :name, presence: true, length: { maximum: 100 }
     validates :color, presence: true, length: { maximum: 50 }
-    enum :status, { pending: 0, printing: 1, completed: 2, failed: 3 }
+    validates :due_date, presence: true
+    validates :notes, length: { maximum: 1000 }, allow_blank: true
+
+    enum :status, { pending: 0, printing: 1, complete: 2 }
+
 end

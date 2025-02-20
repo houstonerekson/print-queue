@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_18_074755) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_075410) do
   create_table "queue_items", force: :cascade do |t|
     t.string "name"
     t.string "reference_id"
@@ -19,5 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_18_074755) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "color"
+    t.date "due_date"
+    t.text "notes"
   end
 end

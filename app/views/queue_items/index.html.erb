@@ -1,34 +1,44 @@
 <% @queue_items.each do |item| %>
-  <div class="card shadow mb-4 bg-body-tertiary border-0">
-    <div class="card-header d-flex justify-content-between align-items-center p-1 ps-3 bg-transparent border-<%= bootstrap_class_name_for(item.status) %> border-top border-bottom-0">
-      <span class="text-<%= bootstrap_class_name_for(item.status) %>"><%= item.status %></span>
-      <div class="d-flex flex-row gap-1">
-        <%= link_to edit_queue_item_path(item), class: "btn btn-sm btn-outline-secondary" do %>
-          <i class="bi bi-pencil"></i>
+  <div class="container shadow-sm mb-4 bg-body-tertiary border-<%= bootstrap_class_name_for(item.status) %>  rounded overflow-hidden position-relative">
+    <div class="row">
+        <% days, status_text = days_remaining(item) %>
+        <% if days.present? %>
+          <div class="col-2 text-center lh-1 border-end border-secondary p-3 <%= 'bg-danger-subtle' if days.negative? %>" style="width:min-content;">
+            <div class="fs-1"><%= days.abs %></div>
+            <div class="fs-6"><%= status_text %></div>
+          </div>
         <% end %>
-
-        <%= button_to queue_item_path(item), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" do %>
-          <i class="bi bi-trash"></i>
-        <% end %>
-      </div>
-
-    </div>
-    <div class="card-body py-1">
-      <h5 class="card-title" ><%= item.name %></h5>
-      <div>Color: <%= item.color %></div>
-    </div>
-
-    <div class="card-footer p-1 d-flex justify-content-end align-items-center bg-transparent border-0">
-      <div class="d-flex flex-row gap-1">
-        <% QueueItem.statuses.keys.each do |status| %>
-          <!-- Skip the current status -->
-          <% unless item.status == status %>
-            <%= button_to queue_item_path(item), method: :patch, params: { queue_item: { status: status } }, class: "btn btn-sm btn-outline-contrast" do %>
-              <%= status.capitalize %>
-            <% end %>
+        <div class="col-auto flex-fill p-2">
+          <div class="fs-6"><%= item.reference_id %></div>
+          <h5 class="card-title" ><%= item.name %></h5>
+          <div>Color: <%= item.color %></div>
+          <% if item.notes.present? %>
+            <div><strong>Notes:</strong> <%= item.notes %></div>
           <% end %>
-        <% end %>
-      </div>
+          <div class="btn-toolbar justify-content-end">
+            <div class="btn-group gap-1">
+              <% QueueItem.statuses.keys.each do |status| %>
+                <%= button_to queue_item_path(item), method: :patch, params: { queue_item: { status: status } }, class: "btn btn-sm #{item.status.to_s == status ? 'btn-' + bootstrap_class_name_for(status) : 'btn-outline-' + bootstrap_class_name_for(status)}" do %>
+                  <%= status.capitalize %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
     </div>
+
+    <div class="dropdown position-absolute top-0 end-0">
+        <i class="bi bi-three-dots-vertical px-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Edit", edit_queue_item_path(item), class: "dropdown-item text-secondary" %>
+          </li>
+          <li>
+            <%= link_to "Delete", queue_item_path(item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "dropdown-item text-danger" %>
+          </li>
+        </ul>
+    </div>
+
+
   </div>
 <% end %>

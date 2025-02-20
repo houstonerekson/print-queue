@@ -2,7 +2,7 @@ class QueueItemsController < ApplicationController
   before_action :set_queue_item, only: %i[show edit update destroy]
 
   def index
-    @queue_items = QueueItem.all
+    @queue_items = QueueItem.all.order(:status, :due_date)
   end
 
   def show
@@ -50,6 +50,6 @@ class QueueItemsController < ApplicationController
   end
 
   def queue_item_params
-    params.require(:queue_item).permit(:name, :status, :color)
+    params.require(:queue_item).permit(:reference_id, :name, :status, :due_date, :color, :notes)
   end
 end

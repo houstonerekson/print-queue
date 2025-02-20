@@ -12,7 +12,7 @@ module ApplicationHelper
     def bootstrap_class_name_for(status)
       status_classes = {
         "pending" => "warning",
-        "completed" => "success",
+        "complete" => "success",
         "printing" => "info",
         "failed" => "danger"
       }

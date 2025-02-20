@@ -25,32 +25,22 @@
   </head>
 
   <body data-bs-theme="dark" class="pb-5">
-
-    <nav class="navbar bg-body-tertiary position-sticky top-0 w-100 shadow">
-      <div class="container">
-        <a class="navbar-brand" href="<%= root_path %>">Print Queue</a>
-
-        <div class="" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="btn btn-primary" href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
-                <i class="bi bi-plus-lg"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
     <% flash.each do |type, message| %>
-      <div class="alert alert-<%= bootstrap_class_for(type) %> alert-dismissible position-absolute top-0 start-50 translate-middle-x fade show" role="alert">
+      <div class="alert alert-<%= bootstrap_class_for(type) %> alert-dismissible position-absolute top-0 start-50 translate-middle-x fade show" role="alert" style="z-index:9999">
         <%= message %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
     
-    <div class="container col-md-8 pt-3">
+    <div class="container pt-3">
       <%= yield %>
     </div>
+
+    <nav class="navbar bg-body-tertiary position-fixed bottom-0 w-100 d-flex justify-content-center" style="height:45px">
+      <a class="bg-primary" style="position:absolute;width:70px;height:70px;border-radius:50%;top: -35px;display: flex;flex-direction: column;justify-content: center;align-items: center;font-size: 3rem;color: white;"  href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
+        <i class="bi bi-plus-lg"></i>
+      </a>
+    </nav>
+
   </body>
 </html>

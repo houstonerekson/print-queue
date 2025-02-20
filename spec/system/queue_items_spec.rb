@@ -9,6 +9,7 @@ RSpec.describe "QueueItems", type: :system do
     visit new_queue_item_path
     fill_in "Name", with: "Test Print Job"
     fill_in "Color", with: "Test Color"
+    fill_in "Due date", with: "01-01-2020"
     choose "Pending"
     click_button "Create"
   
