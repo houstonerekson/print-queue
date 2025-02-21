@@ -10,7 +10,8 @@ capybara-*.html
 *.orig
 rerun.txt
 pickle-email-*.html
-
+#ignore .tar files
+*.tar
 # Ignore bundler config.
 /.bundle
 

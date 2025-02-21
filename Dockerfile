@@ -3,7 +3,7 @@
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
 # docker build -t print_queue .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name print_queue print_queue
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=1215a89c6453474724c93563ba7ba4f8 --name print_queue print_queue
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
