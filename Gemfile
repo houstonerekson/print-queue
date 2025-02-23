@@ -42,6 +42,9 @@ gem "thruster", require: false
 gem 'dartsass-rails'
 gem "bootstrap", "~> 5.3.3"
 
+# User authentication
+gem "devise", "~> 4.9"
+
 #gem 'etsy'
 
 group :development, :test do
