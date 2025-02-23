@@ -1,8 +1,9 @@
 class QueueItemsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_queue_item, only: %i[show edit update destroy]
 
   def index
-    @queue_items = QueueItem.all.order(:status, :due_date)
+    @queue_items = current_user.queue_items.all.order(:status, :due_date)
   end
 
   def show
@@ -13,7 +14,7 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    @queue_item = QueueItem.new(queue_item_params)
+    @queue_item = current_user.queue_items.new(queue_item_params)
     if @queue_item.save
       flash[:notice] = "Queue item created successfully!"
       redirect_to queue_items_path

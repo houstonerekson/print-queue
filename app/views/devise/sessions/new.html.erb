@@ -1,0 +1,20 @@
+<div class="row justify-content-sm-center h-100">
+  <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+    <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
+      <h2 class="text-center mb-4">Log in</h1>
+      <%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= f.password_field :password, autocomplete: "current-password" %>
+        <% if devise_mapping.rememberable? %>
+            <%= f.check_box :remember_me %>
+        <% end %>
+        <%= f.submit "Log in" %>
+      <% end %>
+    </div>
+    <div class="card-footer py-3 border-0">
+      <div class="text-center">
+      <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,8 @@ class QueueItem < ApplicationRecord
     validates :due_date, presence: true
     validates :notes, length: { maximum: 1000 }, allow_blank: true
 
+    belongs_to :user
+
     enum :status, { pending: 0, printing: 1, complete: 2 }
 
 end

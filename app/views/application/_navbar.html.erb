@@ -1,0 +1,18 @@
+<% if user_signed_in? %>
+    <nav class="navbar bg-body-tertiary position-fixed bottom-0 w-100 d-flex justify-content-around align-content-center py-3">
+        <a class="bg-primary" style="position:absolute;width:70px;height:70px;border-radius:50%;top: -45px;left: calc(-35px - -50%);display: flex;flex-direction: column;justify-content: center;align-items: center;font-size: 3rem;color: white;"  href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
+        <i class="bi bi-plus-lg"></i>
+        </a>
+        <i class="bi bi-ban" style="font-size:35px"></i>
+        <i class="bi bi-ban" style="font-size:35px"></i>
+        <i class="bi bi-ban" style="font-size:35px"></i>
+        <div class="dropdown dropup">
+        <i class="bi bi-person-fill-gear px-2 " style="font-size:35px" data-bs-toggle="dropdown" aria-expanded="false"></i>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+            <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete, class: "dropdown-item text-danger" %>
+            </li>
+        </ul>
+        </div>
+    </nav>
+<% end %>
