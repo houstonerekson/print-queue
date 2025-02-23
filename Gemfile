@@ -41,6 +41,8 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 gem 'dartsass-rails'
 gem "bootstrap", "~> 5.3.3"
+# Easily generate bootstrap styling on forms [https://github.com/bootstrap-ruby/bootstrap_form]
+gem "bootstrap_form", "~> 5.4"
 
 # User authentication
 gem "devise", "~> 4.9"
