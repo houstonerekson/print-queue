@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_23_054405) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_25_084719) do
   create_table "queue_items", force: :cascade do |t|
     t.string "name"
     t.string "reference_id"
@@ -18,10 +18,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_054405) do
     t.string "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "color"
     t.date "due_date"
     t.text "notes"
     t.integer "user_id", null: false
+    t.bigint "order_id"
+    t.bigint "order_item_id"
+    t.integer "quantity", default: 1, null: false
+    t.json "variations"
     t.index ["user_id"], name: "index_queue_items_on_user_id"
   end
 
