@@ -7,9 +7,9 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages including PostgreSQL client
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
@@ -18,9 +18,13 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
-# Accept secret keys from Railway
+# Get Railway ENV Variables
 ARG RAILS_MASTER_KEY
 ARG SECRET_KEY_BASE
+ARG DATABASE_HOST
+ARG DATABASE_USER
+ARG DATABASE_PASSWORD
+ARG DATABASE_NAME
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -37,7 +41,7 @@ RUN bundle install && \
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
-COPY . .
+COPY . . 
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
@@ -61,6 +65,11 @@ USER 1000:1000
 # Set environment variables for runtime
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+# Add the PostgreSQL environment variables
+ENV DATABASE_HOST=$DATABASE_HOST
+ENV DATABASE_USER=$DATABASE_USER
+ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
+ENV DATABASE_NAME=$DATABASE_NAME
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
