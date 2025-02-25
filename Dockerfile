@@ -9,7 +9,7 @@ WORKDIR /rails
 
 # Install base packages including PostgreSQL client
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-client && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-client libpq-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
