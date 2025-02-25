@@ -46,7 +46,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production using the actual RAILS_MASTER_KEY
-RUN ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE=$SECRET_KEY_BASE RAILS_MASTER_KEY=$RAILS_MASTER_KEY ./bin/rails assets:precompile
 
 # Run database migrations
 RUN ./bin/rails db:migrate
