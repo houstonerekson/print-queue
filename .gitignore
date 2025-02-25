@@ -12,6 +12,7 @@ rerun.txt
 pickle-email-*.html
 #ignore .tar files
 *.tar
+
 # Ignore bundler config.
 /.bundle
 
@@ -23,6 +24,9 @@ pickle-email-*.html
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+
+# Ignore /test_data
+/test_data/
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
