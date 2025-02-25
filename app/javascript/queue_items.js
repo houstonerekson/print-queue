@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("turbo:load", function () {
     const variationContainer = document.getElementById("variation-fields");
     const addVariationButton = document.getElementById("add-variation");
 
