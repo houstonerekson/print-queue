@@ -56,6 +56,9 @@ FROM base
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
+# Ensure bin/rails is executable
+RUN chmod +x ./bin/rails
+
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
@@ -71,10 +74,9 @@ ENV DATABASE_USER=$DATABASE_USER
 ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
 ENV DATABASE_NAME=$DATABASE_NAME
 
-
-# Entrypoint prepares the database.
+# Entrypoint prepares the database and applies migrations on startup
 ENTRYPOINT ["./bin/rails", "db:migrate", "RAILS_ENV=production"]
 
-# Start Rails server via default command
+# Start Rails server via bin/rails
 EXPOSE 80
-CMD ["bundle", "exec", "rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
