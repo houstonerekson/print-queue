@@ -79,4 +79,4 @@ ENTRYPOINT ["./bin/rails", "db:migrate", "RAILS_ENV=production"]
 
 # Start Rails server via bin/rails
 EXPOSE 80
-CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
+CMD ["./bin/rails", "server"]
