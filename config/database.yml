@@ -20,71 +20,21 @@ test:
   <<: *default
   database: storage/test.sqlite3
 
-
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
-# production:
-#   primary:
-#     <<: *default
-#     database: storage/production.sqlite3
-#   cache:
-#     <<: *default
-#     database: storage/production_cache.sqlite3
-#     migrations_paths: db/cache_migrate
-#   queue:
-#     <<: *default
-#     database: storage/production_queue.sqlite3
-#     migrations_paths: db/queue_migrate
-#   cable:
-#     <<: *default
-#     database: storage/production_cable.sqlite3
-#     migrations_paths: db/cable_migrate
-
-# production:
-#   primary:
-#     adapter: postgresql
-#     encoding: unicode
-#     database: <%= ENV["DATABASE_NAME"] %>
-#     username: <%= ENV["DATABASE_USER"] %>
-#     password: <%= ENV["DATABASE_PASSWORD"] %>
-#     host: <%= ENV["DATABASE_HOST"] %>
-#     port: <%= ENV["DATABASE_PORT"] || 5432 %>
-#     pool: 5
-  
-#   cache:
-#     adapter: postgresql
-#     encoding: unicode
-#     database: <%= ENV["DATABASE_CACHE_NAME"] || ENV["DATABASE_NAME"] %>
-#     username: <%= ENV["DATABASE_USER"] %>
-#     password: <%= ENV["DATABASE_PASSWORD"] %>
-#     host: <%= ENV["DATABASE_HOST"] %>
-#     port: <%= ENV["DATABASE_PORT"] || 5432 %>
-#     pool: 5
-#     migrations_paths: db/cache_migrate
-
-#   queue:
-#     adapter: postgresql
-#     encoding: unicode
-#     database: <%= ENV["DATABASE_QUEUE_NAME"] || ENV["DATABASE_NAME"] %>
-#     username: <%= ENV["DATABASE_USER"] %>
-#     password: <%= ENV["DATABASE_PASSWORD"] %>
-#     host: <%= ENV["DATABASE_HOST"] %>
-#     port: <%= ENV["DATABASE_PORT"] || 5432 %>
-#     pool: 5
-#     migrations_paths: db/queue_migrate
-
-#   cable:
-#     adapter: postgresql
-#     encoding: unicode
-#     database: <%= ENV["DATABASE_CABLE_NAME"] || ENV["DATABASE_NAME"] %>
-#     username: <%= ENV["DATABASE_USER"] %>
-#     password: <%= ENV["DATABASE_PASSWORD"] %>
-#     host: <%= ENV["DATABASE_HOST"] %>
-#     port: <%= ENV["DATABASE_PORT"] || 5432 %>
-#     pool: 5
-#     migrations_paths: db/cable_migrate
-
-# database.yml 
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  primary: &primary_production
+    <<: *default
+    database: <%= ENV["DATABASE_NAME"] %>
+    username: <%= ENV["DATABASE_USER"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+  cable:
+    <<: *primary_production
+    database: app_production_cable
+    migrations_paths: db/cable_migrate
+  queue:
+    <<: *primary_production
+    database: app_production_queue
+    migrations_paths: db/queue_migrate
+  cache:
+    <<: *primary_production
+    database: app_production_cache
+    migrations_paths: db/cache_migrate
