@@ -74,6 +74,6 @@ ENV DATABASE_NAME=$DATABASE_NAME
 # Entrypoint prepares the database (run migrations and then start server)
 ENTRYPOINT ["./bin/rails", "db:migrate"]
 
-# Start server via Thruster by default
+# Start Rails server via default command
 EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+CMD ["./bin/rails", "server"]
