@@ -11,7 +11,13 @@
         <div class="col-auto flex-fill p-2">
           <div class="fs-6"><%= item.reference_id %></div>
           <h5 class="card-title" ><%= item.name %></h5>
-          <div>Color: <%= item.color %></div>
+          <% item.variations.each do |variation| %>
+            <% variation.each do |key, value| %>
+              <div class="">
+                <strong><%= key %> </strong> <%= value %>
+              </div>
+            <% end %>
+          <% end %>
           <% if item.notes.present? %>
             <div><strong>Notes:</strong> <%= item.notes %></div>
           <% end %>
