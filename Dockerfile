@@ -71,8 +71,8 @@ ENV DATABASE_USER=$DATABASE_USER
 ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
 ENV DATABASE_NAME=$DATABASE_NAME
 
-# Entrypoint prepares the database and runs migrations
-ENTRYPOINT ["./bin/rails", "db:migrate", "&&", "./bin/docker-entrypoint"]
+# Entrypoint prepares the database (run migrations and then start server)
+ENTRYPOINT ["./bin/rails", "db:migrate"]
 
 # Start server via Thruster by default
 EXPOSE 80
