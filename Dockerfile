@@ -71,6 +71,10 @@ ENV DATABASE_USER=$DATABASE_USER
 ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
 ENV DATABASE_NAME=$DATABASE_NAME
 
-# Start Rails server via default command (with db:migrate on startup)
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["./bin/rails", "db:migrate", "RAILS_ENV=production"]
+
+# Start Rails server via default command
 EXPOSE 80
 CMD ["bundle", "exec", "rails", "server"]
