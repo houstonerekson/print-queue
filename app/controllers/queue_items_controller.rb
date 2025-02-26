@@ -3,7 +3,16 @@ class QueueItemsController < ApplicationController
   before_action :set_queue_item, only: %i[show edit update destroy]
 
   def index
-    @queue_items = current_user.queue_items.all.order(:status, :due_date)
+    # Get the status filter from the query parameters
+    status_filter = params[:status]
+
+    # If a status filter is provided, filter the queue items by status
+    if status_filter.present?
+      @queue_items = QueueItem.where(status: status_filter).order(:due_date)
+    else
+      # Otherwise, fetch all the queue items
+      @queue_items = QueueItem.where.not(status: "complete").order(:status, :due_date)
+    end
   end
 
   def show
@@ -17,7 +26,7 @@ class QueueItemsController < ApplicationController
     @queue_item = current_user.queue_items.new(queue_item_params)
     if @queue_item.save
       flash[:notice] = "Queue item created successfully!"
-      redirect_to queue_items_path
+      redirect_to root_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +38,7 @@ class QueueItemsController < ApplicationController
   def update 
     if @queue_item.update(queue_item_params)
       flash[:notice] = "Queue item updated successfully!"
-      redirect_to queue_items_path
+      redirect_to root_path
     else
       flash.now[:alert] = "Failed to update queue item. Please fix any errors and try again."
       render :edit, status: :unprocessable_entity
@@ -39,7 +48,7 @@ class QueueItemsController < ApplicationController
   def destroy
     @queue_item.destroy
     flash[:notice] = "Queue item deleted successfully!"
-    redirect_to queue_items_path
+    redirect_to root_path
   end
 
   private
