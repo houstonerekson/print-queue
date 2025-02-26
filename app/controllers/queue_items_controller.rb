@@ -8,10 +8,10 @@ class QueueItemsController < ApplicationController
 
     # If a status filter is provided, filter the queue items by status
     if status_filter.present?
-      @queue_items = QueueItem.where(status: status_filter).order(:due_date)
+      @queue_items = current_user.queue_items.where(status: status_filter).order(:due_date)
     else
       # Otherwise, fetch all the queue items
-      @queue_items = QueueItem.where.not(status: "complete").order(:status, :due_date)
+      @queue_items = current_user.queue_items.where.not(status: "complete").order(:status, :due_date)
     end
   end
 

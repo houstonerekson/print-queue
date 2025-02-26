@@ -7,14 +7,5 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     root_path
   end
-
-  def index
-    @status_filter = params[:status]  # Capture the 'status' query parameter
-    @queue_items = QueueItem.all
-
-    if @status_filter.present?
-      @queue_items = @queue_items.where(status: @status_filter)
-    end
-  end
   
 end
