@@ -51,6 +51,6 @@ class QueueItemsController < ApplicationController
   end
 
   def queue_item_params
-    params.require(:queue_item).permit(:reference_id, :name, :status, :due_date, :notes)
+    params.require(:queue_item).permit(:reference_id, :name, :status, :due_date, :notes, variations: [:key, :value])
   end
 end
