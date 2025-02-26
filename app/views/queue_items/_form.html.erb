@@ -9,7 +9,7 @@
         </div>
     <% end %>
 
-    <%= form.text_field :reference_id, class: "form-control" %>
+    
     <%= form.text_field :name, class: "form-control" %>
 
     <div id="variations">
@@ -37,16 +37,19 @@
     <button type="button" class="btn btn-secondary mb-3" id="add-variation">Add Variation</button>
 
 
-    <%= form.date_field :due_date, class: "form-control" %>
     <%= form.text_area :notes, class: "form-control", rows: 3 %>
 
-    <div class="mb-3">
-        <%= form.label :status, class: "form-label d-block" %>
-        <div class="btn-group" role="group" aria-label="Status selection">
-            <% QueueItem.statuses.keys.each do |status| %>
-                <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %> />
-                <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
-            <% end %>
+    <div class="row">
+        <div class="col-auto"><%= form.date_field :due_date, class: "form-control" %></div>
+        <div class="col"><%= form.text_field :reference_id, class: "form-control" %></div>
+        <div class="col-auto">
+            <%= form.label :status, class: "form-label d-block" %>
+            <div class="btn-group" role="group" aria-label="Status selection">
+                <% QueueItem.statuses.keys.each do |status| %>
+                    <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %> />
+                    <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
+                <% end %>
+            </div>
         </div>
     </div>
 
