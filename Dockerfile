@@ -25,7 +25,10 @@ COPY . .
 
 # Precompile assets and run database migrations
 RUN bundle exec rails assets:precompile
-RUN bundle exec rails db:migrate
+
+# Ensure SECRET_KEY_BASE is set
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
 
 # Expose Railway's required port
 EXPOSE 8080
