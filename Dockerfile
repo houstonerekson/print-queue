@@ -16,6 +16,9 @@ ENV RAILS_ENV=production
 ENV BUNDLE_DEPLOYMENT=1
 ENV BUNDLE_WITHOUT="development test"
 
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+
 # Copy Gemfiles and install dependencies
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs=4 --retry=3
@@ -25,10 +28,6 @@ COPY . .
 
 # Precompile assets and run database migrations
 RUN bundle exec rails assets:precompile
-
-# Ensure SECRET_KEY_BASE is set
-ARG SECRET_KEY_BASE
-ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
 
 # Expose Railway's required port
 EXPOSE 8080
