@@ -8,32 +8,36 @@
             </ul>
         </div>
     <% end %>
-    
+
     <%= form.text_field :reference_id, class: "form-control" %>
     <%= form.text_field :name, class: "form-control" %>
 
     <div id="variations">
-        <h4 class="mt-4">Variations</h4>
+        <label for="variations" class="form-label">Variations</label>
         <% queue_item.variations.each_with_index do |variation, index| %>
-            <div class="row mb-3 variation-field" data-index="<%= index %>">
-                <div class="col-md-5">
-                    <%= form.text_field "queue_item[variations][#{index}][title]", value: variation["title"], placeholder: "Title", class: "form-control", required: true %>
+            <div class="row mb-1 variation-field" data-index="<%= index %>">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <%= text_field_tag "queue_item[variations][][title]", 
+                            variation["title"], 
+                            placeholder: "Title", 
+                            class: "form-control", 
+                            required: true %>
+                        <%= text_field_tag "queue_item[variations][][value]", 
+                            variation["value"], 
+                            placeholder: "Value", 
+                            class: "form-control" %>
+                        <button type="button" class="btn btn-sm btn-danger input-group-text remove-variation">Remove</button>
+                    </div>
                     <div class="invalid-feedback">Please provide a variation title.</div>
-                </div>
-                <div class="col-md-5">
-                    <%= form.text_field "queue_item[variations][#{index}][value]", value: variation["value"], placeholder: "Value", class: "form-control" %>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-sm btn-danger remove-variation">Remove</button>
                 </div>
             </div>
         <% end %>
     </div>
+    <button type="button" class="btn btn-secondary mb-3" id="add-variation">Add Variation</button>
 
-    <button type="button" class="btn btn-secondary" id="add-variation">Add Variation</button>
 
     <%= form.date_field :due_date, class: "form-control" %>
-    
     <%= form.text_area :notes, class: "form-control", rows: 3 %>
 
     <div class="mb-3">
@@ -47,35 +51,33 @@
     </div>
 
     <div class="actions d-flex flex-row justify-content-between">
-        <%= form.submit class: "btn btn-primary" %><%= link_to "Cancel", queue_items_path, class: "btn btn-danger" %>
+        <%= form.submit class: "btn btn-primary" %>
+        <%= link_to "Cancel", queue_items_path, class: "btn btn-danger" %>
     </div>
 <% end %>
 
 <template id="variation-template">
-    <div class="row mb-3 variation-field">
-        <div class="col-md-5">
-            <%= text_field_tag "queue_item[variations][][title]", nil, placeholder: "Title", class: "form-control", required: true %>
+    <div class="row mb-1 variation-field">
+        <div class="col-md-12">
+            <div class="input-group">
+                <input type="text" name="queue_item[variations][][title]" placeholder="Title" class="form-control" required>
+                <input type="text" name="queue_item[variations][][value]" placeholder="Value" class="form-control">
+                <button type="button" class="btn btn-sm btn-danger input-group-text remove-variation">Remove</button>
+            </div>
             <div class="invalid-feedback">Please provide a variation title.</div>
-        </div>
-        <div class="col-md-5">
-            <%= text_field_tag "queue_item[variations][][value]", nil, placeholder: "Value", class: "form-control" %>
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-sm btn-danger remove-variation">Remove</button>
         </div>
     </div>
 </template>
 
 <script>
-  document.getElementById('add-variation').addEventListener('click', function() {
-    const variationsContainer = document.getElementById('variations');
+document.getElementById('add-variation').addEventListener('click', function() {
     const template = document.getElementById('variation-template').content.cloneNode(true);
-    variationsContainer.appendChild(template);
-  });
+    document.getElementById('variations').appendChild(template);
+});
 
-  document.getElementById('variations').addEventListener('click', function(event) {
+document.getElementById('variations').addEventListener('click', function(event) {
     if (event.target.classList.contains('remove-variation')) {
-      event.target.closest('.variation-field').remove();
+        event.target.closest('.variation-field').remove();
     }
-  });
+});
 </script>

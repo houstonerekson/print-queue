@@ -12,11 +12,9 @@
           <div class="fs-6"><%= item.reference_id %></div>
           <h5 class="card-title" ><%= item.name %></h5>
           <% item.variations.each do |variation| %>
-            <% variation.each do |key, value| %>
-              <div class="">
-                <strong><%= key %> </strong> <%= value %>
-              </div>
-            <% end %>
+            <div class="variation">
+              <strong><%= "#{variation['title']}: #{variation['value']}" %></strong>
+            </div>
           <% end %>
           <% if item.notes.present? %>
             <div><strong>Notes:</strong> <%= item.notes %></div>
