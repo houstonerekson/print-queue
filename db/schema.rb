@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_25_084719) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_26_012319) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "queue_items", force: :cascade do |t|
     t.string "name"
     t.string "reference_id"
@@ -24,7 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_25_084719) do
     t.bigint "order_id"
     t.bigint "order_item_id"
     t.integer "quantity", default: 1, null: false
-    t.json "variations"
+    t.jsonb "variations"
     t.index ["user_id"], name: "index_queue_items_on_user_id"
   end
 

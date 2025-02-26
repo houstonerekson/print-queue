@@ -11,21 +11,26 @@
     
     <%= form.text_field :reference_id, class: "form-control" %>
     <%= form.text_field :name, class: "form-control" %>
-    
-    <div class="mb-3"><label for="variations" class="form-label">Variations</label>
-        <div id="variation-fields">
-        <% @queue_item.variations.each_with_index do |variation, index| %>
-            <% variation.each do |key, value| %>
-            <div class="input-group mb-2 variation-group">
-                <%= text_field_tag "queue_item[variations][#{index}][key]", key, placeholder: "Property", class: "form-control" %>
-                <%= text_field_tag "queue_item[variations][#{index}][value]", value, placeholder: "Value", class: "form-control" %>
-                <button type="button" class="btn btn-outline-danger remove-variation">−</button>
+
+    <div id="variations">
+        <h4 class="mt-4">Variations</h4>
+        <% queue_item.variations.each_with_index do |variation, index| %>
+            <div class="row mb-3 variation-field" data-index="<%= index %>">
+                <div class="col-md-5">
+                    <%= form.text_field "queue_item[variations][#{index}][title]", value: variation["title"], placeholder: "Title", class: "form-control", required: true %>
+                    <div class="invalid-feedback">Please provide a variation title.</div>
+                </div>
+                <div class="col-md-5">
+                    <%= form.text_field "queue_item[variations][#{index}][value]", value: variation["value"], placeholder: "Value", class: "form-control" %>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-sm btn-danger remove-variation">Remove</button>
+                </div>
             </div>
-            <% end %>
         <% end %>
-        </div>
-        <button type="button" id="add-variation" class="btn btn-outline-success">+</button>
     </div>
+
+    <button type="button" class="btn btn-secondary" id="add-variation">Add Variation</button>
 
     <%= form.date_field :due_date, class: "form-control" %>
     
@@ -35,8 +40,8 @@
         <%= form.label :status, class: "form-label d-block" %>
         <div class="btn-group" role="group" aria-label="Status selection">
             <% QueueItem.statuses.keys.each do |status| %>
-            <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %>>
-            <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
+                <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %> />
+                <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
             <% end %>
         </div>
     </div>
@@ -45,3 +50,32 @@
         <%= form.submit class: "btn btn-primary" %><%= link_to "Cancel", queue_items_path, class: "btn btn-danger" %>
     </div>
 <% end %>
+
+<template id="variation-template">
+    <div class="row mb-3 variation-field">
+        <div class="col-md-5">
+            <%= text_field_tag "queue_item[variations][][title]", nil, placeholder: "Title", class: "form-control", required: true %>
+            <div class="invalid-feedback">Please provide a variation title.</div>
+        </div>
+        <div class="col-md-5">
+            <%= text_field_tag "queue_item[variations][][value]", nil, placeholder: "Value", class: "form-control" %>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-sm btn-danger remove-variation">Remove</button>
+        </div>
+    </div>
+</template>
+
+<script>
+  document.getElementById('add-variation').addEventListener('click', function() {
+    const variationsContainer = document.getElementById('variations');
+    const template = document.getElementById('variation-template').content.cloneNode(true);
+    variationsContainer.appendChild(template);
+  });
+
+  document.getElementById('variations').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-variation')) {
+      event.target.closest('.variation-field').remove();
+    }
+  });
+</script>

@@ -26,9 +26,7 @@ class QueueItemsController < ApplicationController
   def edit
   end
 
-  def update
-    @queue_item = QueueItem.find(params[:id])
-  
+  def update 
     if @queue_item.update(queue_item_params)
       flash[:notice] = "Queue item updated successfully!"
       redirect_to queue_items_path
@@ -51,6 +49,18 @@ class QueueItemsController < ApplicationController
   end
 
   def queue_item_params
-    params.require(:queue_item).permit(:reference_id, :name, :status, :due_date, :notes, variations: [:key, :value])
+    params.require(:queue_item).permit(
+      :name, 
+      :reference_id, 
+      :status, 
+      :priority, 
+      :due_date, 
+      :notes, 
+      :user_id, 
+      :order_id, 
+      :order_item_id, 
+      :quantity, 
+      variations: [:title, :value]
+    )
   end
 end

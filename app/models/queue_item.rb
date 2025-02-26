@@ -1,18 +1,22 @@
 class QueueItem < ApplicationRecord  
-    after_initialize :set_default_variations, unless: :persisted?
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :due_date, presence: true
+  validates :notes, length: { maximum: 1000 }, allow_blank: true
+  
+  validate :variations_are_valid
 
-    validates :name, presence: true, length: { maximum: 100 }
-    validates :due_date, presence: true
-    validates :notes, length: { maximum: 1000 }, allow_blank: true
+  belongs_to :user
 
-    belongs_to :user
+  enum :status, { pending: 0, printing: 1, complete: 2 }
 
-    enum :status, { pending: 0, printing: 1, complete: 2 }
+  # Variations stored as a JSONB array of objects
+  attribute :variations, :jsonb, default: []
 
-    private
+  private
 
-    def set_default_variations
-        self.variations ||= []
+  def variations_are_valid
+    if variations.present? && variations.any? { |variation| variation['title'].blank? || variation['value'].blank? }
+      errors.add(:variations, "Each variation must have a title and a value")
     end
-
+  end
 end
