@@ -5,7 +5,7 @@
   root 'queue_items#index'
 
   # Redirect /queue_items to the root path
-  get '/queue_items', to: redirect('/')
+  #get '/queue_items', to: redirect('/')
 
   resources :queue_items, only: [:index, :new, :create, :edit, :update, :show, :destroy]
 

@@ -1,3 +1,18 @@
+<ul class="nav pb-3 justify-content-center">
+  <li class="nav-item">
+    <%= link_to "Show All", root_path, class: "nav-link" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "Pending", root_path(status: "pending"), class: "nav-link" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "Printing", root_path(status: "printing"), class: "nav-link" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "Complete", root_path(status: "complete"), class: "nav-link" %>
+  </li>
+</ul>
+
 <% @queue_items.each do |item| %>
   <div class="container shadow-sm mb-4 bg-body-tertiary border-<%= bootstrap_class_name_for(item.status) %>  rounded overflow-hidden position-relative">
     <div class="row">
