@@ -26,9 +26,13 @@
 
   <body data-bs-theme="dark" class="pb-5">
     <% flash.each do |type, message| %>
-      <div class="alert alert-<%= bootstrap_class_for(type) %> alert-dismissible position-absolute top-0 start-50 translate-middle-x fade show" role="alert" style="z-index:9999">
-        <%= message %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <div class="toast position-absolute top-0 end-0 align-items-center text-bg-<%= bootstrap_class_for(type) %> border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            <%= message %>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
       </div>
     <% end %>
     
