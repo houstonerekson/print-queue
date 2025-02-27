@@ -3,16 +3,28 @@ class QueueItemsController < ApplicationController
   before_action :set_queue_item, only: %i[show edit update destroy]
 
   def index
-    # Get the status filter from the query parameters
-    status_filter = params[:status]
-
-    # If a status filter is provided, filter the queue items by status
-    if status_filter.present?
-      @queue_items = current_user.queue_items.where(status: status_filter).order(:due_date)
-    else
-      # Otherwise, fetch all the queue items
-      @queue_items = current_user.queue_items.where.not(status: "complete").order(:status, :due_date)
-    end
+    @queue_items = current_user.queue_items
+  
+    # Default filter: Exclude completed items
+    @queue_items = @queue_items.where.not(status: "complete") unless params[:status].present?
+  
+    # Apply filtering if a status is provided
+    @queue_items = @queue_items.where(status: params[:status]) if params[:status].present?
+  
+    # Default sorting: By status (asc), then due_date (asc)
+    default_order = { status: :asc, due_date: :asc }
+  
+    # Apply sorting based on params
+    @queue_items = case params[:sort]
+                   when "updated"
+                     @queue_items.order(updated_at: :desc)
+                   when "due_date"
+                     @queue_items.order(due_date: :asc)
+                   when "status"
+                     @queue_items.order(status: :asc, due_date: :asc)
+                   else
+                     @queue_items.order(default_order)
+                   end
   end
 
   def show
@@ -38,7 +50,7 @@ class QueueItemsController < ApplicationController
   def update 
     if @queue_item.update(queue_item_params)
       flash[:notice] = "Queue item updated successfully!"
-      redirect_to root_path
+      redirect_to root_path(status: params[:status], sort: params[:sort])
     else
       flash.now[:alert] = "Failed to update queue item. Please fix any errors and try again."
       render :edit, status: :unprocessable_entity
@@ -48,7 +60,7 @@ class QueueItemsController < ApplicationController
   def destroy
     @queue_item.destroy
     flash[:notice] = "Queue item deleted successfully!"
-    redirect_to root_path
+    redirect_to root_path(status: params[:status], sort: params[:sort])
   end
 
   private

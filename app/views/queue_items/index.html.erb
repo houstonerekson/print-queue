@@ -9,7 +9,7 @@
     <%= link_to "Printing", root_path(status: "printing"), class: "nav-link" %>
   </li>
   <li class="nav-item">
-    <%= link_to "Complete", root_path(status: "complete"), class: "nav-link" %>
+    <%= link_to "Complete", root_path(status: "complete", sort: "updated"), class: "nav-link" %>
   </li>
 </ul>
 
@@ -36,11 +36,13 @@
           <% end %>
           <div class="btn-toolbar justify-content-end">
             <div class="btn-group gap-1">
-              <% QueueItem.statuses.keys.each do |status| %>
-                <%= button_to queue_item_path(item), method: :patch, params: { queue_item: { status: status } }, class: "btn btn-sm #{item.status.to_s == status ? 'btn-' + bootstrap_class_name_for(status) : 'btn-outline-' + bootstrap_class_name_for(status)}" do %>
-                  <%= status.capitalize %>
-                <% end %>
-              <% end %>
+<% QueueItem.statuses.keys.each do |status| %>
+  <%= button_to queue_item_path(item, request.query_parameters.merge(queue_item: { status: status })), 
+                method: :patch, 
+                class: "btn btn-sm #{item.status.to_s == status ? 'btn-' + bootstrap_class_name_for(status) : 'btn-outline-' + bootstrap_class_name_for(status)}" do %>
+    <%= status.capitalize %>
+  <% end %>
+<% end %>
             </div>
           </div>
         </div>
