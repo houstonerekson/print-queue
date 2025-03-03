@@ -35,8 +35,10 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    @queue_item = current_user.queue_items.new(queue_item_params)
-    if @queue_item.save
+    queue_item_creator = QueueItemCreator.new(current_user, queue_item_params)
+    @queue_item = queue_item_creator.call
+
+    if @queue_item.persisted?
       flash[:notice] = "Queue item created successfully!"
       redirect_to root_path
     else
