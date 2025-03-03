@@ -28,6 +28,7 @@ COPY . .
 
 # Precompile assets and run database migrations
 RUN bundle exec rails assets:precompile
+RUN rails db:migrate
 
 # Expose Railway's required port
 EXPOSE 8080
