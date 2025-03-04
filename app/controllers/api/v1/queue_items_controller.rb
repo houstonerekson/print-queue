@@ -3,6 +3,10 @@ class Api::V1::QueueItemsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :authenticate_with_api_key!
 
+  rescue_from StandardError, with: :render_internal_server_error
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
   def create
     @queue_item = current_user.queue_items.new(queue_item_params)
 
@@ -39,6 +43,18 @@ class Api::V1::QueueItemsController < ApplicationController
       end
     
       def current_user
-        @current_user
+          @current_user
+      end
+      
+      def render_unprocessable_entity(exception)
+        render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
+      end
+    
+      def render_not_found(exception)
+        render json: { error: exception.message }, status: :not_found
+      end
+    
+      def render_internal_server_error(exception)
+        render json: { error: exception.message }, status: :internal_server_error
       end
   end
