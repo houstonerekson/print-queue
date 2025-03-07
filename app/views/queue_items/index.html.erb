@@ -23,12 +23,16 @@
             <div class="fs-6"><%= status_text %></div>
           </div>
         <% end %>
-        <div class="col-auto flex-fill p-2">
-          <div class="fs-6"><%= item.reference_id %></div>
+        <div class="col-auto flex-fill p-2 d-flex gap-1 flex-column justify-content-between">
+          <% if item.reference_id.present? %>
+            <div class="fs-6">
+              <%= item.reference_id %>
+            </div>
+          <% end %>
           <h5 class="card-title" ><%= item.name %></h5>
           <% item.variations.each do |variation| %>
             <div class="variation">
-              <strong><%= "#{variation['title']}: #{variation['value']}" %></strong>
+              <strong><%= "#{variation['title']}:" %></strong> <%= "#{variation['value']}" %>
             </div>
           <% end %>
           <% if item.notes.present? %>

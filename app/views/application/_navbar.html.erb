@@ -1,4 +1,5 @@
 <% if user_signed_in? %>
+    <div style="height: 50vh;"></div>
     <nav class="navbar bg-body-tertiary position-fixed bottom-0 w-100 d-flex justify-content-around align-content-center py-3">
         <a class="bg-primary" style="position:absolute;width:70px;height:70px;border-radius:50%;top: -45px;left: calc(-35px - -50%);display: flex;flex-direction: column;justify-content: center;align-items: center;font-size: 3rem;color: white;"  href="<%= new_queue_item_path %>" aria-label="Add Queue Item">
         <i class="bi bi-plus-lg"></i>
