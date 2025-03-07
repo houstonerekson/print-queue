@@ -1,62 +1,49 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
+    <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password", help: "#{@minimum_password_length} characters minimum" %>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
 
-  <div class="actions">
     <%= f.submit "Update" %>
-  </div>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+<hr>
+<h4>Your API Keys:</h4>
+<div class="container mb-3">
+<% if current_user.api_keys.present? %>
+  <% current_user.api_keys.where.not(id: nil).each do |key| %>
+    <div class="api-key card">
+      <div class="card-body">
+      <div class="row">
+        <div class="col">
+        <div><strong>Description:</strong> <%= key.description %></div>
+        <div><strong>Key:</strong> <%= key.key %></div>
+        </div>
+        <div class="col-2 d-flex flex-row justify-content-end">
+        <%= button_to 'Delete', api_key_path(key), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </div>
+      </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p>You do not have any API keys. Generate one below</p>
+<% end %>
+</div>
 
 <% @api_key = current_user.api_keys.new %>
-<%= form_with model: @api_key do |f| %>
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_field :description, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.submit 'Generate API Key', class: 'btn btn-primary' %>
-  </div>
-<% end %>
-
-<h3>Your API Keys</h3>
-<% current_user.api_keys.where.not(id: nil).each do |key| %>
-  <div class="api-key">
-    <p><strong>Description:</strong> <%= key.description %></p>
-    <p><strong>Key:</strong> <%= key.key %></p>
-    <%= button_to 'Delete', api_key_path(key), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-  </div>
+<%= bootstrap_form_with model: @api_key do |f| %>
+    <%= f.text_field :description, label_as_placeholder: true, append: f.primary('Generate API Key'), input_group_class: 'input-group'  %>
 <% end %>
