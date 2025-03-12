@@ -1,25 +1,31 @@
-<ul class="nav pb-3">
-  <li class="nav-item">
-    <%= link_to root_path, class: "nav-link" do %>
-      Show All <span class="badge text-bg-secondary"><%= current_user.queue_items.count %></span>
-    <% end %>
-  </li>
-  <li class="nav-item">
-    <%= link_to root_path(status: "pending"), class: "nav-link" do %>
-      Pending <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'pending').count %></span>
-    <% end %>
-  </li>
-  <li class="nav-item">
-    <%= link_to root_path(status: "printing"), class: "nav-link" do %>
-      Printing <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'printing').count %></span>
-    <% end %>
-  </li>
-  <li class="nav-item">
-    <%= link_to root_path(status: "complete", sort: "updated"), class: "nav-link" do %>
-      Complete <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'complete').count %></span>
-    <% end %>
-  </li>
-</ul>
+<div class="navbar">
+  <ul class="nav pb-3">
+    <li class="nav-item">
+      <%= link_to root_path, class: "nav-link" do %>
+        Show All <span class="badge text-bg-secondary"><%= current_user.queue_items.count %></span>
+      <% end %>
+    </li>
+    <li class="nav-item">
+      <%= link_to root_path(status: "pending"), class: "nav-link" do %>
+        Pending <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'pending').count %></span>
+      <% end %>
+    </li>
+    <li class="nav-item">
+      <%= link_to root_path(status: "printing"), class: "nav-link" do %>
+        Printing <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'printing').count %></span>
+      <% end %>
+    </li>
+    <li class="nav-item">
+      <%= link_to root_path(status: "complete", sort: "updated"), class: "nav-link" do %>
+        Complete <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'complete').count %></span>
+      <% end %>
+    </li>
+  </ul>
+
+  <%= bootstrap_form_with url: queue_items_path, method: :get, local: true do |f| %>
+      <%= f.search_field :query, placeholder: 'Search queue items...', class: 'input-group', value: params[:query], append: f.primary('Search'), hide_label: true %>
+  <% end %>
+</div>
 
 <% @queue_items.each do |item| %>
   <div class="container shadow-sm mb-4 bg-body-tertiary border-<%= bootstrap_class_name_for(item.status) %>  rounded overflow-hidden position-relative">

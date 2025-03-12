@@ -11,6 +11,15 @@ class QueueItem < ApplicationRecord
   validates :notes, length: { maximum: 1000 }, allow_blank: true
   validate :variations_are_valid
 
+  scope :search, ->(query) {
+    if query.present?
+      where(
+        'name ILIKE :query OR reference_id ILIKE :query OR CAST(status AS TEXT) ILIKE :query OR notes ILIKE :query',
+        query: "%#{query}%"
+      )
+    end
+  }
+  
   private
 
   def variations_are_valid

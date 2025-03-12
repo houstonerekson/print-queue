@@ -4,9 +4,12 @@ class QueueItemsController < ApplicationController
 
   def index
     @queue_items = current_user.queue_items
+
+    # Display search results
+    @queue_items = @queue_items.search(params[:query]) if params[:query].present?
   
     # Default filter: Exclude completed items
-    @queue_items = @queue_items.where.not(status: "complete") unless params[:status].present?
+    @queue_items = @queue_items.where.not(status: "complete") unless params[:status].present? || params[:query].present?
   
     # Apply filtering if a status is provided
     @queue_items = @queue_items.where(status: params[:status]) if params[:status].present?
