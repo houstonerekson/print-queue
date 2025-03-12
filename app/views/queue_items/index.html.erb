@@ -1,15 +1,23 @@
-<ul class="nav pb-3 justify-content-center">
+<ul class="nav pb-3">
   <li class="nav-item">
-    <%= link_to "Show All", root_path, class: "nav-link" %>
+    <%= link_to root_path, class: "nav-link" do %>
+      Show All <span class="badge text-bg-secondary"><%= current_user.queue_items.count %></span>
+    <% end %>
   </li>
   <li class="nav-item">
-    <%= link_to "Pending", root_path(status: "pending"), class: "nav-link" %>
+    <%= link_to root_path(status: "pending"), class: "nav-link" do %>
+      Pending <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'pending').count %></span>
+    <% end %>
   </li>
   <li class="nav-item">
-    <%= link_to "Printing", root_path(status: "printing"), class: "nav-link" %>
+    <%= link_to root_path(status: "printing"), class: "nav-link" do %>
+      Printing <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'printing').count %></span>
+    <% end %>
   </li>
   <li class="nav-item">
-    <%= link_to "Complete", root_path(status: "complete", sort: "updated"), class: "nav-link" %>
+    <%= link_to root_path(status: "complete", sort: "updated"), class: "nav-link" do %>
+      Complete <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'complete').count %></span>
+    <% end %>
   </li>
 </ul>
 
