@@ -1,7 +1,11 @@
-<div class="navbar">
+<div class="navbar justify-content-center justify-content-md-between">
+  <%= bootstrap_form_with url: queue_items_path, method: :get, local: true do |f| %>
+      <%= f.search_field :query, placeholder: 'Search queue items...', class: 'input-group', value: params[:query], append: f.primary('Search'), hide_label: true %>
+  <% end %>
+  
   <ul class="nav pb-3">
     <li class="nav-item">
-      <%= link_to "Show All", root_path, class: "nav-link" %>
+      <%= link_to "All", root_path, class: "nav-link" %>
     </li>
     <li class="nav-item">
       <%= link_to root_path(status: "pending"), class: "nav-link" do %>
@@ -27,10 +31,6 @@
       <%= link_to "Complete", root_path(status: "complete", sort: "updated"), class: "nav-link" %>
     </li>
   </ul>
-
-  <%= bootstrap_form_with url: queue_items_path, method: :get, local: true do |f| %>
-      <%= f.search_field :query, placeholder: 'Search queue items...', class: 'input-group', value: params[:query], append: f.primary('Search'), hide_label: true %>
-  <% end %>
 </div>
 
 <% @queue_items.each do |item| %>
