@@ -1,24 +1,30 @@
 <div class="navbar">
   <ul class="nav pb-3">
     <li class="nav-item">
-      <%= link_to root_path, class: "nav-link" do %>
-        Show All <span class="badge text-bg-secondary"><%= current_user.queue_items.count %></span>
-      <% end %>
+      <%= link_to "Show All", root_path, class: "nav-link" %>
     </li>
     <li class="nav-item">
       <%= link_to root_path(status: "pending"), class: "nav-link" do %>
-        Pending <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'pending').count %></span>
+        Pending
+        <% if current_user.queue_items.where(status: 'pending').present? %>
+          <span class="badge text-bg-secondary">
+            <%= current_user.queue_items.where(status: 'pending').count %>
+          </span>
+        <% end %>
       <% end %>
     </li>
     <li class="nav-item">
       <%= link_to root_path(status: "printing"), class: "nav-link" do %>
-        Printing <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'printing').count %></span>
+        Printing
+        <% if current_user.queue_items.where(status: 'printing').present? %>
+          <span class="badge text-bg-secondary">
+            <%= current_user.queue_items.where(status: 'printing').count %>
+          </span>
+        <% end %>
       <% end %>
     </li>
     <li class="nav-item">
-      <%= link_to root_path(status: "complete", sort: "updated"), class: "nav-link" do %>
-        Complete <span class="badge text-bg-secondary"><%= current_user.queue_items.where(status: 'complete').count %></span>
-      <% end %>
+      <%= link_to "Complete", root_path(status: "complete", sort: "updated"), class: "nav-link" %>
     </li>
   </ul>
 
@@ -54,13 +60,13 @@
           <% end %>
           <div class="btn-toolbar justify-content-end">
             <div class="btn-group gap-1">
-<% QueueItem.statuses.keys.each do |status| %>
-  <%= button_to queue_item_path(item, request.query_parameters.merge(queue_item: { status: status })), 
-                method: :patch, 
-                class: "btn btn-sm #{item.status.to_s == status ? 'btn-' + bootstrap_class_name_for(status) : 'btn-outline-' + bootstrap_class_name_for(status)}" do %>
-    <%= status.capitalize %>
-  <% end %>
-<% end %>
+              <% QueueItem.statuses.keys.each do |status| %>
+                <%= button_to queue_item_path(item, request.query_parameters.merge(queue_item: { status: status })), 
+                              method: :patch, 
+                              class: "btn btn-sm #{item.status.to_s == status ? 'btn-' + bootstrap_class_name_for(status) : 'btn-outline-' + bootstrap_class_name_for(status)}" do %>
+                  <%= status.capitalize %>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
