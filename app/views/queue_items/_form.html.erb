@@ -8,7 +8,6 @@
             </ul>
         </div>
     <% end %>
-
     
     <%= form.text_field :name, class: "form-control" %>
 
@@ -40,11 +39,12 @@
     <%= form.text_area :notes, class: "form-control", rows: 3 %>
 
     <div class="row">
-        <div class="col-auto"><%= form.date_field :due_date, class: "form-control" %></div>
-        <div class="col"><%= form.text_field :reference_id, class: "form-control" %></div>
+        <div class="col-sm-4"><%= form.date_field :due_date, class: "form-control" %></div>
+        <div class="col-sm-4"><%= form.text_field :reference_id, class: "form-control" %></div>
+        <div class="col-sm-4"><%= form.number_field :quantity, class: "form-control" %></div>
         <div class="col-auto">
             <%= form.label :status, class: "form-label d-block" %>
-            <div class="btn-group" role="group" aria-label="Status selection">
+            <div class="btn-group mb-3" role="group" aria-label="Status selection">
                 <% QueueItem.statuses.keys.each do |status| %>
                     <input type="radio" class="btn-check" name="queue_item[status]" id="status_<%= status %>" value="<%= status %>" <%= 'checked' if form.object.status == status %> />
                     <label class="btn btn-outline-secondary" for="status_<%= status %>"><%= status.humanize %></label>
