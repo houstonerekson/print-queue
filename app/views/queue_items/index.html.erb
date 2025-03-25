@@ -38,12 +38,19 @@
     <div class="row">
         <% days, status_text = days_remaining(item) %>
         <% if days.present? %>
-          <div class="col-2 text-center lh-1 border-end border-secondary p-3 <%= 'bg-danger-subtle' if days.negative? %>" style="width:min-content;">
-            <div class="fs-1"><%= days.abs %></div>
-            <div class="fs-6"><%= status_text %></div>
+          <div class="d-flex flex-column justify-content-center col-2 border-end border-secondary p-2 text-center <%= 'bg-danger-subtle' if days.negative? %>" style="width:min-content;white-space: nowrap;">
+            <div>
+              <div class="text-uppercase fs-6"><%= status_text %></div>
+            </div>
+            <div class="flex-fill d-flex align-items-center justify-content-center lh-1 pb-3">
+              <div>
+                <div class="fs-1 " style="font-family: monospace; letter-spacing: -0.1rem;"><%= days.abs %></div>
+                <div class="">days</div>
+              </div>
+            </div>
           </div>
         <% end %>
-        <div class="col-auto flex-fill p-2 d-flex gap-1 flex-column justify-content-between">
+        <div class="col p-2 d-flex gap-1 flex-column justify-content-between">
           <% if item.reference_id.present? %>
             <div class="fs-6">
               <%= item.reference_id %>

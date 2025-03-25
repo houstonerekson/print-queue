@@ -4,9 +4,9 @@ module QueueItemsHelper
       
             days = (queue_item.due_date - Date.today).to_i
             text = if days.negative?
-                "Days Overdue"
+                "Late By"
             else
-                "Days Remaining"
+                "Due In"
             end
   
         [days, text]
